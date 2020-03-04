@@ -1,0 +1,12 @@
+spring:
+  profiles:
+    active: dev
+##整合Mybatis
+#mybatis:
+#  #  扫描数据持久对应的实体类 路径 Package级别
+#  typealiasespackage: com.whu.bookstore.entity
+#  #  mybatis 对应的 .xml文件路径
+#  mapper-locations: classpath:mapper/*.xml
+#  #  多层级目录  mapper-locations: classpath:mapper/**/**.xml
+#  configuration:
+#    map-underscore-to-camel-case: true
