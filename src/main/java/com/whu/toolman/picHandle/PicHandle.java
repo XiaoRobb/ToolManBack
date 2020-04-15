@@ -1,4 +1,4 @@
-package com.whu.toolman;
+package com.whu.toolman.picHandle;
 
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.util.StringUtils;
