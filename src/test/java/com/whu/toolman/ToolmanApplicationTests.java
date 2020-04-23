@@ -8,6 +8,7 @@ class ToolmanApplicationTests {
 
     @Test
     void contextLoads() {
+        System.out.println("陈嘉真的帅");
     }
 
 }
