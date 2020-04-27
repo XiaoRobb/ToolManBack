@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-
 public class PicRenderingHandle {
     //图片滤镜添加调用javaImageFilter图像处理库
     public static void ImageRendering(int style , String srcPath, String dstPath) throws IOException {

@@ -11,7 +11,7 @@ class ToolmanApplicationTests {
 
     @Test
     void contextLoads() throws IOException {
-        PicRenderingHandle.ImageRendering(6,"C:\\Users\\陈嘉\\Desktop\\c.jpg","C:\\Users\\陈嘉\\Desktop\\e.png");
+        PicRenderingHandle.ImageRendering(7,"C:\\Users\\陈嘉\\Desktop\\c.jpg","C:\\Users\\陈嘉\\Desktop\\d.png");
     }
 
 }
