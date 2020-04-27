@@ -55,6 +55,18 @@
             <artifactId>thumbnailator</artifactId>
             <version>0.4.8</version>
         </dependency>
+        <!--文档处理相关包-->
+        <dependency>
+            <groupId>aspose</groupId>
+            <artifactId>aspose-cells</artifactId>
+            <version>18.2</version>
+        </dependency>
+        <dependency>
+            <groupId>aspose</groupId>
+            <artifactId>aspose-words</artifactId>
+            <version>16.4.0</version>
+        </dependency>
+
 
 
 
