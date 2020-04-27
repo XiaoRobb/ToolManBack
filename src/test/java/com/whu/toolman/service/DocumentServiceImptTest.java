@@ -8,9 +8,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class DocumentServiceImptTest {
     @Test
-    void changeFormatTest(){
+    void changeFormatTest() throws Exception{
         Document doc = new Document("E:/test.doc");
         DocumentServiceImpl documentService = new DocumentServiceImpl();
         String temp = documentService.changeFormat(doc, "test.pdf",13);
+        System.out.printf(temp);
     }
 }
