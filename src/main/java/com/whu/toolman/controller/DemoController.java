@@ -20,13 +20,13 @@ public class DemoController {
 
     @GetMapping("/demo")
     public Result demo(@RequestParam("name") String name,
-                       @RequestParam("picture")MultipartFile file) {
+                       @RequestParam("picture") MultipartFile file) {
         Result result = new Result();
         result.setCode(200);
         List<String> cjs = new ArrayList<>();
         cjs.add("cj1");
         cjs.add("陈家2");
-        result.setData(file);
+        System.out.println(file.getOriginalFilename());
         result.setMsg("你好," + name);
         return result;
     }
