@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whu.toolman.dao.RecordMapper">
+    <select id="selectByUser" resultType="com.whu.toolman.entity.Record">
+        select * from record
+        where user_id = #{userId}
+        order by create_time
+    </select>
+
+    <insert id="insertRecord" parameterType="com.whu.toolman.entity.Record">
+        insert into record (uuid,user_id,create_time,descreption)
+        values (#{uuid},#{userId}, now(),#{descreption})
+    </insert>
+
+    <delete id="deleteRecord">
+        delete from record
+        where uuid=#{uuid}
+    </delete>
+
+    <delete id="deleteAllRecord">
+        delete from record
+        where user_id=#{userId}
+    </delete>
+
+</mapper>
