@@ -12,5 +12,8 @@ import java.util.List;
  */
 public interface UserService {
     User getUser(String username);
+
+
+    int createUser(String username, String password, String name, String email);
 }
 

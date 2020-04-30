@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.UUID;
 
 /**
  * @author ：qx.w
@@ -28,4 +29,18 @@ public class UserServiceImpl implements UserService {
     public User getUser(String username) {
         return userMapper.selectByUsername(username) != null ? userMapper.selectByUsername(username).get(0) : null;
     }
+
+    @Override
+    public int createUser(String username, String password, String name, String email) {
+        User user = new User();
+        String uuid = UUID.randomUUID().toString();
+        user.setUuid(uuid);
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setEmail(email);
+        user.setName(name);
+        return userMapper.insertUser(user);
+    }
+
+
 }
