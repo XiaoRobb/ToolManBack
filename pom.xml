@@ -72,7 +72,7 @@
             <version>2.4.2</version>
         </dependency>
 
-
+<!--        图片转换-->
         <dependency>
             <groupId>com.jhlabs</groupId>
             <artifactId>filters</artifactId>
