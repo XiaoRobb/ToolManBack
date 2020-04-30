@@ -10,7 +10,7 @@ public class ToolmanApplication {
     public static void main(String[] args) {
         SpringApplication.run(ToolmanApplication.class, args);
     }
-}
+};
 
 
 
