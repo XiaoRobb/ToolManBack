@@ -3,6 +3,7 @@ package com.whu.toolman.service.impl;
 import com.aspose.words.Document;
 import com.aspose.words.SaveFormat;
 import com.whu.toolman.service.DocumentService;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -12,6 +13,7 @@ import java.io.FileOutputStream;
  * @description 文档处理服务实现
  * @since 2020/4/27
  */
+@Service
 public class DocumentServiceImpl implements DocumentService {
 
     private static String filepath = System.getProperty("user.dir");

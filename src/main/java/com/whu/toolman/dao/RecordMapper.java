@@ -1,6 +1,7 @@
 package com.whu.toolman.dao;
 
 import com.whu.toolman.entity.Record;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
  * @modified By：
  * @since ：Created in 2020/4/30 11:12
  */
+@Mapper
 public interface RecordMapper {
     /**
      * 通过用户名查找
