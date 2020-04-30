@@ -40,4 +40,35 @@ public class UserController {
         return result;
     }
 
+    @PostMapping("/{username}")
+    public Result register(@PathVariable("username") String username
+            , @RequestParam("password") String password
+            , @RequestParam("email") String email
+            , @RequestParam("name") String name) {
+        Result result = new Result();
+        try {
+            User user1 = userService.getUser(username);
+            result.setCode(201);
+            result.setMsg("用户已存在");
+            return result;
+        }
+        catch (IndexOutOfBoundsException exception) {
+            System.out.println("没有老用户");
+        }
+        catch (Exception exception) {
+            System.out.println(exception.getMessage());
+            result.setCode(500);
+            result.setMsg("查询出现问题");
+            return result;
+        }
+        if (userService.createUser(username, password, name, email) == 0) {
+            result.setCode(202);
+            result.setMsg("注册失败");
+            return result;
+        }
+        result.setCode(200);
+        result.setMsg("注册成功");
+        return result;
+    }
+
 }
