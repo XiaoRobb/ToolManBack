@@ -1,8 +1,5 @@
 package com.whu.toolman.controller;
 
-import ch.qos.logback.core.encoder.EchoEncoder;
-import com.sun.deploy.net.HttpResponse;
-import com.sun.deploy.net.URLEncoder;
 import com.whu.toolman.common.Result;
 import com.whu.toolman.util.AudioConvertUtils;
 import org.springframework.stereotype.Controller;
@@ -17,6 +14,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
+import java.net.URLEncoder;
 
 /**
  * @author ：qx.w
