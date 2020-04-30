@@ -21,7 +21,7 @@ public class DocumentServiceImpl implements DocumentService {
         File file = new File(location);
         try {
             FileOutputStream outputStream = new FileOutputStream(file);
-            doc.save(outputStream, SaveFormat.PDF);
+            doc.save(outputStream, format);
         }catch (Exception e){
             location = "";
         }
