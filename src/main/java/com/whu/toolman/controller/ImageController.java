@@ -44,8 +44,6 @@ public class ImageController {
     //图片滤镜添加
     public Result ImageRendering(@RequestParam("style")int style , @RequestParam("picture") MultipartFile source, @RequestParam("dstPath")String dstPath) throws IOException{
         Result result = new Result();
-
-
         File file = null;
         try {
 
@@ -117,14 +115,14 @@ public class ImageController {
 
     @GetMapping("/imagecompress")
     //图片压缩
-    public static Result compressImage(@RequestParam("picture") MultipartFile srcPath, @RequestParam("dstPath") String dstPath, @RequestParam("size")long desFileSize){
+    public Result compressImage(@RequestParam("picture") MultipartFile srcPath, @RequestParam("dstPath") String dstPath, @RequestParam("size")long desFileSize){
         double accuacy = 0.9;
         Result result = compressImage(srcPath , dstPath , desFileSize , accuacy);
         return result;
     }
 
 
-    public static Result compressImage(@RequestParam("picture") MultipartFile srcPath, @RequestParam("dstPath") String dstPath, @RequestParam("size")long desFileSize, @RequestParam("accuacy")double accuacy){
+    public Result compressImage(@RequestParam("picture") MultipartFile srcPath, @RequestParam("dstPath") String dstPath, @RequestParam("size")long desFileSize, @RequestParam("accuacy")double accuacy){
         Result result = new Result();
         File file = null;
         try {
@@ -158,7 +156,7 @@ public class ImageController {
     }
 
     //图片压缩子步骤
-    public static void compressImageUsage(String dstPath, long size, double accuracy){
+    public void compressImageUsage(String dstPath, long size, double accuracy){
         File srcImage = new File(dstPath);
         long srcImageSize = srcImage.length();
         //判断大小是否达标
