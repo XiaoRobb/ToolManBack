@@ -25,6 +25,11 @@ public class Record {
     private LocalDateTime creatTime;
 
     /**
+     * 操作类型（文档图片音频）
+     */
+    private String type;
+
+    /**
      * 操作描述
      */
     private String descreption;
@@ -59,6 +64,14 @@ public class Record {
 
     public void setDescreption(String descreption) {
         this.descreption = descreption;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
 

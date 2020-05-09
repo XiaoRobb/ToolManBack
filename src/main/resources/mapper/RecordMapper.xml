@@ -8,8 +8,8 @@
     </select>
 
     <insert id="insertRecord" parameterType="com.whu.toolman.entity.Record">
-        insert into record (uuid,user_id,create_time,descreption)
-        values (#{uuid},#{userId}, now(),#{descreption})
+        insert into record (uuid,user_id,create_time,type,descreption)
+        values (#{uuid},#{userId}, now(), #{type},#{descreption})
     </insert>
 
     <delete id="deleteRecord">

@@ -24,7 +24,7 @@ public interface RecordService {
      * @param descreption
      * @return
      */
-    int insertRecord(String userId, String descreption);
+    int insertRecord(String userId, String type, String descreption);
 
     /**
      * 从删除一条记录

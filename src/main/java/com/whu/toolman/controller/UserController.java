@@ -3,7 +3,9 @@ package com.whu.toolman.controller;
 import com.whu.toolman.common.Result;
 import com.whu.toolman.entity.User;
 import com.whu.toolman.service.UserService;
+import com.whu.toolman.util.PictureUtil;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 
@@ -61,7 +63,9 @@ public class UserController {
             result.setMsg("查询出现问题");
             return result;
         }
-        if (userService.createUser(username, password, name, email) == 0) {
+        //这里开始注册用户图片开始
+        String image = PictureUtil.url + "user/default.jpg";
+        if (userService.createUser(username, password, name, email, image) == 0) {
             result.setCode(202);
             result.setMsg("注册失败");
             return result;

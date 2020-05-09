@@ -7,7 +7,7 @@
     </select>
 
     <insert id="insertUser" parameterType="com.whu.toolman.entity.User">
-        insert into user(uuid, username, password, name, email, create_time)
-        values(#{uuid}, #{username}, #{password}, #{name}, #{email}, now())
+        insert into user(uuid, username, password, name, email, image, create_time)
+        values(#{uuid}, #{username}, #{password}, #{name}, #{email}, #{image}, now())
     </insert>
 </mapper>

@@ -35,6 +35,11 @@ public class User {
     private String email;
 
     /**
+     * 图片地址
+     */
+    private String image;
+
+    /**
      * 创建时间
      */
     private LocalDateTime createTime;
@@ -85,5 +90,13 @@ public class User {
 
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

@@ -27,11 +27,12 @@ public class RecordServiceImpl implements RecordService {
     }
 
     @Override
-    public int insertRecord(String userId, String descreption) {
+    public int insertRecord(String userId, String type, String descreption) {
         Record record = new Record();
         String uuid = UUID.randomUUID().toString();
         record.setUuid(uuid);
         record.setUserId(userId);
+        record.setType(type);
         record.setDescreption(descreption);
         return recordMapper.insertRecord(record);
     }

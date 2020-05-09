@@ -14,6 +14,6 @@ public interface UserService {
     User getUser(String username);
 
 
-    int createUser(String username, String password, String name, String email);
+    int createUser(String username, String password, String name, String email, String image);
 }
 

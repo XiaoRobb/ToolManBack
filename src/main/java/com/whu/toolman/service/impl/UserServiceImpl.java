@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int createUser(String username, String password, String name, String email) {
+    public int createUser(String username, String password, String name, String email, String image) {
         User user = new User();
         String uuid = UUID.randomUUID().toString();
         user.setUuid(uuid);
@@ -39,6 +39,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(password);
         user.setEmail(email);
         user.setName(name);
+        user.setImage(image);
         return userMapper.insertUser(user);
     }
 
