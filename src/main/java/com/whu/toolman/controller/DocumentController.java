@@ -78,13 +78,11 @@ public class DocumentController {
             result.setMsg("转换成功");
             result.setData(location);
             if(username != "default"){  //插入记录
-                //获取当前时间
-                Date date = new Date();
-                SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
                 recordService.insertRecord(username, "文档", "把文件转为" + format+"格式");
             }
             return result;
         }catch (Exception e){
+            System.out.println(e.getMessage());
             result.setCode(205);
             result.setMsg("转换失败");
             return result;

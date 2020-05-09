@@ -7,6 +7,7 @@ import com.aspose.words.SaveFormat;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.zip.ZipEntry;
 
 /**
@@ -17,12 +18,12 @@ import java.util.zip.ZipEntry;
 public class DocumentConvertUtils {
 
     public static String changeFormat(File file, String filename, int format) throws Exception{
-        String location = "D:/ToolManResources/Document/" + filename;
+        String location = PictureUtil.filePathDocument  + filename;
         Document doc = new Document(new FileInputStream(file));
         File outPutFile = new File(location);
         FileOutputStream outputStream = new FileOutputStream(outPutFile);
         doc.save(outputStream, format);
-        return "http://localhost:9010/ToolManResources/Document/" + filename;
+        return PictureUtil + "/document/"+ filename;
     }
 
     public static String docToImage(File file, String filename, int format) throws Exception{
@@ -30,7 +31,7 @@ public class DocumentConvertUtils {
             return "";
         }
         String fileNameReal = filename.substring(0, filename.length()-4);
-        String path = "D:/ToolManResources/Document/" + fileNameReal + "/";
+        String path = PictureUtil.filePathDocument  + fileNameReal + "\\";
         File f = new File(path);
         if(f.exists()){
             f.delete();
@@ -47,7 +48,7 @@ public class DocumentConvertUtils {
             String suffix = format == SaveFormat.JPEG ? ".jpeg" : ".png";
             doc.save(path+i+ suffix, iso);
         }
-        String zipPath = "D:/ToolManResources/Document/" + fileNameReal +".zip";
+        String zipPath = PictureUtil.filePathDocument + fileNameReal +".zip";
         ZipUtIls zipUtIls = new ZipUtIls(zipPath);
         zipUtIls.compress(path);
         return zipPath;
