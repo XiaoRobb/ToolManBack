@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class ImageController {
 
     @GetMapping("/imagerendering")
     //图片滤镜添加
-    public void ImageRendering(@RequestParam("style")int style , @RequestParam("picture") MultipartFile source, @RequestParam("dstPath")String dstPath) throws IOException{
+    public Result ImageRendering(@RequestParam("style")int style , @RequestParam("picture") MultipartFile source, @RequestParam("dstPath")String dstPath) throws IOException{
         Result result = new Result();
 
 
@@ -103,20 +104,27 @@ public class ImageController {
                     a.filter(srcimage,dstimage);
                     break;
             }
-
+            result.setData(dstimage);
             ImageIO.write(dstimage, "png", output);
-            result.setMsg("OK");
+            result.setMsg("Success！");
 
         }catch (IOException e){
             System.out.print(e.getMessage());
         }
 
-
+        return result;
     }
 
     @GetMapping("/imagecompress")
     //图片压缩
-    public static String compressImage(@RequestParam("picture") MultipartFile srcPath, @RequestParam("dstPath") String dstPath, @RequestParam("size")long desFileSize, @RequestParam("accuacy")double accuacy){
+    public static Result compressImage(@RequestParam("picture") MultipartFile srcPath, @RequestParam("dstPath") String dstPath, @RequestParam("size")long desFileSize){
+        double accuacy = 0.9;
+        Result result = compressImage(srcPath , dstPath , desFileSize , accuacy);
+        return result;
+    }
+
+
+    public static Result compressImage(@RequestParam("picture") MultipartFile srcPath, @RequestParam("dstPath") String dstPath, @RequestParam("size")long desFileSize, @RequestParam("accuacy")double accuacy){
         Result result = new Result();
         File file = null;
         try {
@@ -145,7 +153,8 @@ public class ImageController {
             e1.printStackTrace();
         }
         result.setMsg("OK");
-        return dstPath;
+        result.setData(dstPath);
+        return result;
     }
 
     //图片压缩子步骤
