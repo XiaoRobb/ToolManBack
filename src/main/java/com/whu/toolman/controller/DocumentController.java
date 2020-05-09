@@ -71,7 +71,7 @@ public class DocumentController {
                 //获取当前时间
                 Date date = new Date();
                 SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
-                recordService.insertRecord(username, "文档", "把" + document.getName() + "文件转为" + format+"格式");
+                recordService.insertRecord(username, "文档", "把文件转为" + format+"格式");
             }
             return result;
         }catch (Exception e){
