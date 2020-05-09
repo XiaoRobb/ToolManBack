@@ -1,6 +1,7 @@
 package com.whu.toolman;
 import com.whu.toolman.picHandle.PicHandle;
 import com.whu.toolman.picHandle.PicRenderingHandle;
+import  com.whu.toolman.util.AudioConvertUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -10,8 +11,8 @@ import java.io.IOException;
 class ToolmanApplicationTests {
 
     @Test
-    void contextLoads() throws IOException {
-        PicRenderingHandle.ImageRendering(7,"C:\\Users\\陈嘉\\Desktop\\c.jpg","C:\\Users\\陈嘉\\Desktop\\d.png");
+    void contextLoads() throws Exception {
+        AudioConvertUtils.picAudioFromVideo("G:\\英雄时刻\\191367444\\英雄时刻_20200503-17点56分36s.avi","C:\\Users\\陈嘉\\Desktop\\g.wav");
     }
 
 }

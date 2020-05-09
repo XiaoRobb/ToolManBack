@@ -172,4 +172,25 @@ public class AudioConvertUtils {
 
     }
 
+    //从avi文件中提取音频文件
+    public static  File picAudioFromVideo(String sourceFile, String srcPath) throws Exception {
+        File source = new File(sourceFile);
+        File target = new File(srcPath);
+        try{
+
+            AudioAttributes audio = new AudioAttributes();
+            audio.setCodec("pcm_s16le");
+            EncodingAttributes attrs = new EncodingAttributes();
+            attrs.setFormat("wav");
+            attrs.setAudioAttributes(audio);
+            Encoder encoder = new Encoder();
+            encoder.encode(new MultimediaObject(source), target, attrs);
+            return target;
+        }catch (Exception e){
+
+        }
+        return target;
+    }
+
+
 }
