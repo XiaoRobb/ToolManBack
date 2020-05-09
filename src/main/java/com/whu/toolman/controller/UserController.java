@@ -75,4 +75,62 @@ public class UserController {
         return result;
     }
 
+    @PutMapping("/{username}")
+    public Result updateUser(@PathVariable("username") String username
+            , @RequestParam("password") String password
+            , @RequestParam("email") String email
+            , @RequestParam("name") String name
+            , @RequestParam("imageUrl") String imageUrl
+            , @RequestParam("image") MultipartFile image) {
+        Result result = new Result();
+        String url = null;
+        String uuid = null;
+        if (imageUrl.equals("")) {
+            //因为更新了图片所以需要先删除然后再
+            try {
+                url = userService.getUser(username).getImage();
+                uuid = userService.getUser(username).getUuid();
+            }
+            catch (NullPointerException e) {
+                result.setCode(302);
+                result.setMsg("没有该uuid");
+                return result;
+            }
+            //首先判断删除老图片是否成功
+            if (!PictureUtil.deletePhoto(url, PictureUtil.filePathUser)) {
+                result.setCode(500);
+                result.setMsg("更新失败（ps:删除）");
+            }
+            //得到图片url
+            url = PictureUtil.uploadImage(image, uuid, PictureUtil.filePathUser);
+            if (url.equals("上传失败，请上传bmp、jpg、jpeg、png、gif文件！")){
+                result.setCode(500);
+                result.setMsg(url);
+                return result;
+            }else if (url.equals("图片上传至服务器失败！")){
+                result.setCode(500);
+                result.setMsg(url);
+                return result;
+            }
+        }
+        else {
+            url = imageUrl;
+        }
+
+        int count = 0;
+        try {
+            count = userService.updateUser(username, password, name, email, url);
+        }
+        catch (Exception e) {
+            result.setCode(500);
+            result.setMsg("数据库修改出错");
+        }
+        result.setCode(200);
+        result.setMsg("修改成功");
+        result.setData(count);
+        return result;
+    }
+
+
+
 }

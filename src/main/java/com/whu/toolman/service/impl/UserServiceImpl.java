@@ -43,5 +43,16 @@ public class UserServiceImpl implements UserService {
         return userMapper.insertUser(user);
     }
 
+    @Override
+    public int updateUser(String username, String password, String name, String email, String image) {
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setEmail(email);
+        user.setName(name);
+        user.setImage(image);
+        return userMapper.updateUser(user);
+    }
+
 
 }
