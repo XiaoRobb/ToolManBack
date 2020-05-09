@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,5 +32,26 @@ public class DemoController {
         return result;
     }
 
+    @GetMapping("/pic")
+    public Result demdo(@RequestParam("name") String name,
+                       @RequestParam("picture") MultipartFile file) {
+        Result result = new Result();
+        result.setCode(200);
+
+        File dest = new File("D:\\ToolManResources\\" + file.getOriginalFilename());
+        try {
+            file.transferTo(dest);
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage().toString());
+        }
+
+        List<String> cjs = new ArrayList<>();
+        cjs.add("cj1");
+        cjs.add("陈家2");
+        System.out.println(file.getOriginalFilename());
+        result.setMsg("你好," + name + "///" + "http://localhost:9010/ToolManResources/" + file.getOriginalFilename());
+        return result;
+    }
 
 }
