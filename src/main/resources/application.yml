@@ -1,6 +1,13 @@
 spring:
   profiles:
     active: dev
+  servlet:
+    multipart:
+      #设置文件大小
+      max-file-size: 5MB
+      enabled: true
+      max-request-size: 10MB
+
 #Mybatis
 mybatis:
   #

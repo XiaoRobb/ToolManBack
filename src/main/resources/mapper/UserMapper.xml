@@ -10,4 +10,10 @@
         insert into user(uuid, username, password, name, email, image, create_time)
         values(#{uuid}, #{username}, #{password}, #{name}, #{email}, #{image}, now())
     </insert>
+
+    <update id="updateUser" parameterType="com.whu.toolman.entity.User">
+        update user set password=#{password}, name=#{name}, email=#{email}, image=#{image}
+        where username = #{username}
+    </update>
+
 </mapper>

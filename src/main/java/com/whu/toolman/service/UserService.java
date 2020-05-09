@@ -15,5 +15,7 @@ public interface UserService {
 
 
     int createUser(String username, String password, String name, String email, String image);
+
+    int updateUser(String username, String password, String name, String email, String image);
 }
 
