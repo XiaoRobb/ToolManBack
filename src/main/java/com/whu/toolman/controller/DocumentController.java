@@ -63,7 +63,17 @@ public class DocumentController {
         }
         try{
             File file = FileUtils.multipartFileToFile(document);
-            String location = DocumentConvertUtils.changeFormat(file,  filename, fileFormat);
+            String location;
+            if(fileFormat == SaveFormat.JPEG || fileFormat == SaveFormat.PNG){
+               location = DocumentConvertUtils.docToImage(file, filename, fileFormat);
+            }else{
+                location = DocumentConvertUtils.changeFormat(file,  filename, fileFormat);
+            }
+            if(location == "" || location == null){
+                result.setCode(205);
+                result.setMsg("转换失败");
+                return result;
+            }
             result.setCode(200);
             result.setMsg("转换成功");
             result.setData(location);
