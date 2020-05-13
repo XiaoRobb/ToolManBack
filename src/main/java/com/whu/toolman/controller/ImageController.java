@@ -1,19 +1,22 @@
 package com.whu.toolman.controller;
 
 import ch.qos.logback.core.encoder.EchoEncoder;
-
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.sql.PreparedStatement;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
+import com.aspose.words.SaveFormat;
+import com.whu.toolman.picHandle.*;
 import ch.qos.logback.core.util.FileUtil;
 import com.jhlabs.image.*;
 import com.whu.toolman.common.Result;
-import com.whu.toolman.util.AudioConvertUtils;
+import com.whu.toolman.util.*;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -29,7 +32,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
 import com.whu.toolman.picHandle.*;
-@Controller
+@RestController
 @RequestMapping("/image")
 public class ImageController {
     /*
@@ -42,7 +45,11 @@ public class ImageController {
 
     @GetMapping("/imagerendering")
     //图片滤镜添加
-    public Result ImageRendering(@RequestParam("style")int style , @RequestParam("picture") MultipartFile source, @RequestParam("dstPath")String dstPath) throws IOException{
+    public Result ImageRendering(@RequestParam("style")int style , @RequestParam("picture") MultipartFile source) throws IOException{
+        int fileFormat;
+        String filename = source.getName();
+
+        String dstPath = PictureUtil.filePathPicture +filename + ".png";
         Result result = new Result();
         File file = null;
         try {
@@ -52,7 +59,7 @@ public class ImageController {
              file.deleteOnExit();
         } catch (IOException e) {
             e.printStackTrace();
-            result.setCode(200);
+
         }
         try {
             WaterFilter a = new WaterFilter();
@@ -102,9 +109,11 @@ public class ImageController {
                     a.filter(srcimage,dstimage);
                     break;
             }
-            result.setData(dstimage);
             ImageIO.write(dstimage, "png", output);
-            result.setMsg("Success！");
+
+            result.setCode(200);
+            result.setMsg("转换成功");
+            result.setData(dstPath);
 
         }catch (IOException e){
             System.out.print(e.getMessage());
@@ -115,15 +124,21 @@ public class ImageController {
 
     @GetMapping("/imagecompress")
     //图片压缩
-    public Result compressImage(@RequestParam("picture") MultipartFile srcPath, @RequestParam("dstPath") String dstPath, @RequestParam("size")long desFileSize){
+    public Result compressImage(@RequestParam("picture") MultipartFile srcPath, @RequestParam("size")long desFileSize){
         double accuacy = 0.9;
-        Result result = compressImage(srcPath , dstPath , desFileSize , accuacy);
+        Result result = compressImage(srcPath , desFileSize , accuacy);
         return result;
     }
 
 
-    public Result compressImage(@RequestParam("picture") MultipartFile srcPath, @RequestParam("dstPath") String dstPath, @RequestParam("size")long desFileSize, @RequestParam("accuacy")double accuacy){
+    public Result compressImage(@RequestParam("picture") MultipartFile srcPath, @RequestParam("size")long desFileSize, @RequestParam("accuacy")double accuacy){
         Result result = new Result();
+
+        String filename = srcPath.getName();
+
+        String dstPath = PictureUtil.filePathPicture +filename + ".jpg";
+
+
         File file = null;
         try {
 
@@ -154,7 +169,6 @@ public class ImageController {
         result.setData(dstPath);
         return result;
     }
-
     //图片压缩子步骤
     public void compressImageUsage(String dstPath, long size, double accuracy){
         File srcImage = new File(dstPath);
@@ -176,4 +190,26 @@ public class ImageController {
             e.printStackTrace();
         }
     }
+
+    @GetMapping("/handwriteingREC")
+    public Result  constructHeader(@RequestParam("picture") MultipartFile srcPath) throws IOException, ParseException {
+        Result result = new Result();
+        File file = null;
+        try {
+
+            file=File.createTempFile("tmp", null);
+            srcPath.transferTo(file);
+            file.deleteOnExit();
+        } catch (IOException e) {
+            e.printStackTrace();
+            result.setCode(200);
+        }
+        String src = HandwritingReg.RecognizeHandWritinf(file);
+        String data = JsonUtil.GetContent(src);
+
+
+        result.setData(data);
+        return result;
+    }
+
 }

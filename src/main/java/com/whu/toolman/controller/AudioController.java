@@ -1,6 +1,7 @@
 package com.whu.toolman.controller;
 
 import com.whu.toolman.common.Result;
+import com.whu.toolman.picHandle.HandwritingReg;
 import com.whu.toolman.util.AudioConvertUtils;
 import com.whu.toolman.util.FileUtils;
 import com.whu.toolman.util.PictureUtil;
@@ -102,10 +103,14 @@ public class AudioController {
 
 
     @GetMapping("/audiofromavi")
-    //从avi文件中提取音频文件
-    public static File picAudioFromVideo(@RequestParam("source")MultipartFile sourceFile, @RequestParam("dstpath")String srcPath) throws Exception {
+
+    public Result picAudioFromVideo(@RequestParam("source")MultipartFile sourceFile) throws Exception {
+        String filename = sourceFile.getName();
+        Result result = new Result();
+        String dstPath = PictureUtil.filePathAudio +filename + ".wav";
         File source = FileUtils.multipartFileToFile(sourceFile);
-        File target = new File(srcPath);
+
+        File target = new File(dstPath);
         try{
             AudioAttributes audio = new AudioAttributes();
             audio.setCodec("pcm_s16le");
@@ -114,14 +119,17 @@ public class AudioController {
             attrs.setAudioAttributes(audio);
             Encoder encoder = new Encoder();
             encoder.encode(new MultimediaObject(source), target, attrs);
-            return target;
+
         }catch (Exception e){
+            result.setMsg(e.getMessage());
+            result.setCode(400);
 
         }
-        return target;
+        result.setData(dstPath);
+        result.setMsg("提取成功");
+        result.setCode(200);
+        return result;
     }
-
-
 
 
 }
