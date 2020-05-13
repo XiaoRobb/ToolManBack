@@ -17,7 +17,7 @@ public class JsonUtil {
                 JSONArray jsonArrayTemp = jsonObject.getJSONArray("word");
                 String lineString = "";
                 for(int j=0; j<jsonArrayTemp.length(); j++){
-                    jsonObject = jsonArrayTemp.getJSONObject(i);
+                    jsonObject = jsonArrayTemp.getJSONObject(j);
                     lineString += jsonObject.getString("content") + " ";
                 }
                 returnString += lineString + "\n";
@@ -26,6 +26,5 @@ public class JsonUtil {
         }catch (Exception e){
             return "";
         }
-
     }
 }
