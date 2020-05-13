@@ -32,7 +32,7 @@ public class DocumentController {
     RecordService recordService;
 
     @PostMapping("/word2pdf")
-    public Result word2pdf(@RequestParam("source")MultipartFile document, @RequestParam("format")String format, @RequestParam("username") String username){
+    public Result changeDocument(@RequestParam("source")MultipartFile document, @RequestParam("format")String format, @RequestParam("username") String username){
         Result result = new Result();
         int fileFormat;
         String filename = document.getName();
