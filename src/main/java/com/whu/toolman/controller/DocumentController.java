@@ -32,7 +32,7 @@ public class DocumentController {
     RecordService recordService;
 
     @PostMapping("/word2pdf")
-    public Result word2pdf(@RequestParam("source")MultipartFile document, @RequestParam("format")String format, @RequestParam("username") String username){
+    public Result changeDocument(@RequestParam("source")MultipartFile document, @RequestParam("format")String format, @RequestParam("username") String username){
         Result result = new Result();
         int fileFormat;
         String filename = document.getName();
@@ -63,18 +63,26 @@ public class DocumentController {
         }
         try{
             File file = FileUtils.multipartFileToFile(document);
-            String location = DocumentConvertUtils.changeFormat(file,  filename, fileFormat);
+            String location;
+            if(fileFormat == SaveFormat.JPEG || fileFormat == SaveFormat.PNG){
+               location = DocumentConvertUtils.docToImage(file, filename, fileFormat);
+            }else{
+                location = DocumentConvertUtils.changeFormat(file,  filename, fileFormat);
+            }
+            if(location == "" || location == null){
+                result.setCode(205);
+                result.setMsg("转换失败");
+                return result;
+            }
             result.setCode(200);
             result.setMsg("转换成功");
             result.setData(location);
             if(username != "default"){  //插入记录
-                //获取当前时间
-                Date date = new Date();
-                SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
-                recordService.insertRecord(username, "文档", "把" + document.getName() + "文件转为" + format+"格式");
+                recordService.insertRecord(username, "文档", "把文件转为" + format+"格式");
             }
             return result;
         }catch (Exception e){
+            System.out.println(e.getMessage());
             result.setCode(205);
             result.setMsg("转换失败");
             return result;
