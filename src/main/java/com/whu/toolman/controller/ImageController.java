@@ -115,7 +115,7 @@ public class ImageController {
             result.setMsg("转换成功");
             result.setData(dstPath);
             if(username != "default"){  //插入记录
-                recordService.insertRecord(username, "音频", "提取音频");
+                recordService.insertRecord(username, "图片", "提取音频");
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -152,7 +152,7 @@ public class ImageController {
             long dstImgSize = dstImg.length();
             System.out.println("压缩完成！ 压缩图："+ dstPath+"大小为："+dstImgSize/1024 + "KB");
             if(username != "default"){  //插入记录
-                recordService.insertRecord(username, "音频", "提取音频");
+                recordService.insertRecord(username, "图片", "提取音频");
             }
             result.setMsg("OK");
             result.setData(dstPath);
