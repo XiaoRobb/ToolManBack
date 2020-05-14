@@ -6,6 +6,7 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +17,9 @@ import com.whu.toolman.picHandle.*;
 import ch.qos.logback.core.util.FileUtil;
 import com.jhlabs.image.*;
 import com.whu.toolman.common.Result;
+import com.whu.toolman.service.impl.RecordServiceImpl;
 import com.whu.toolman.util.*;
+import com.whu.toolman.util.ImageUtils;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -35,6 +38,9 @@ import com.whu.toolman.picHandle.*;
 @RestController
 @RequestMapping("/image")
 public class ImageController {
+
+    @Resource
+    RecordServiceImpl recordService;
     /*
     **para
     * dstPath 为本地路径
@@ -45,7 +51,7 @@ public class ImageController {
 
     @GetMapping("/imagerendering")
     //图片滤镜添加
-    public Result ImageRendering(@RequestParam("style")int style , @RequestParam("picture") MultipartFile source) throws IOException{
+    public Result ImageRendering(@RequestParam("style")int style , @RequestParam("picture") MultipartFile source, @RequestParam("username") String username){
         int fileFormat;
         String filename = source.getName();
 
@@ -53,15 +59,9 @@ public class ImageController {
         Result result = new Result();
         File file = null;
         try {
-
-             file=File.createTempFile("tmp", null);
-             source.transferTo(file);
-             file.deleteOnExit();
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
-        try {
+            file=File.createTempFile("tmp", null);
+            source.transferTo(file);
+            file.deleteOnExit();
             WaterFilter a = new WaterFilter();
             //File file = new File(srcPath);//本地图片
             BufferedImage srcimage= ImageIO.read(file);
@@ -114,24 +114,20 @@ public class ImageController {
             result.setCode(200);
             result.setMsg("转换成功");
             result.setData(dstPath);
-
-        }catch (IOException e){
-            System.out.print(e.getMessage());
+            if(username != "default"){  //插入记录
+                recordService.insertRecord(username, "音频", "提取音频");
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            result.setCode(500);
+            result.setMsg("转换失败");
         }
-
         return result;
     }
 
-    @GetMapping("/imagecompress")
     //图片压缩
-    public Result compressImage(@RequestParam("picture") MultipartFile srcPath, @RequestParam("size")long desFileSize){
-        double accuacy = 0.9;
-        Result result = compressImage(srcPath , desFileSize , accuacy);
-        return result;
-    }
-
-
-    public Result compressImage(@RequestParam("picture") MultipartFile srcPath, @RequestParam("size")long desFileSize, @RequestParam("accuacy")double accuacy){
+    @GetMapping("/imagecompress")
+    public Result compressImage(@RequestParam("picture") MultipartFile srcPath, @RequestParam("size")long desFileSize, @RequestParam("accuacy")double accuacy, @RequestParam("username") String username){
         Result result = new Result();
 
         String filename = srcPath.getName();
@@ -145,54 +141,32 @@ public class ImageController {
             file=File.createTempFile("tmp", null);
             srcPath.transferTo(file);
             file.deleteOnExit();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try{
-
             long srcImgSize = file.length();
             System.out.println("原图："+ srcPath+"大小为："+srcImgSize/1024 + "KB");
             BufferedImage srcimage= ImageIO.read(file);
             //转化为jpg文件
             Thumbnails.of(srcimage).scale(1f).toFile(dstPath);
             //递归压缩
-            compressImageUsage(dstPath, desFileSize,accuacy);
+            ImageUtils.compressImageUsage(dstPath, desFileSize,accuacy);
             File dstImg = new File(dstPath);
             long dstImgSize = dstImg.length();
             System.out.println("压缩完成！ 压缩图："+ dstPath+"大小为："+dstImgSize/1024 + "KB");
-
-        }catch (IOException e1){
-            e1.printStackTrace();
+            if(username != "default"){  //插入记录
+                recordService.insertRecord(username, "音频", "提取音频");
+            }
+            result.setMsg("OK");
+            result.setData(dstPath);
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setCode(500);
+            result.setMsg("压缩失败");
         }
-        result.setMsg("OK");
-        result.setData(dstPath);
         return result;
     }
-    //图片压缩子步骤
-    public void compressImageUsage(String dstPath, long size, double accuracy){
-        File srcImage = new File(dstPath);
-        long srcImageSize = srcImage.length();
-        //判断大小是否达标
-        if(srcImageSize <= size * 1024){
-            return;
-        }
-        try{
-            BufferedImage bim = ImageIO.read(srcImage);
-            int srcImageWidth = bim.getWidth();
-            int srcImageHeight = bim.getHeight();
-            int dstImageWith = new BigDecimal(srcImageWidth).multiply(new BigDecimal(accuracy)).intValue();
-            int dstImageHeight = new BigDecimal(srcImageHeight).multiply(new BigDecimal(accuracy)).intValue();
 
-            Thumbnails.of(dstPath).size(dstImageWith,dstImageHeight).outputQuality(accuracy).toFile(dstPath);
-            compressImageUsage(dstPath,size,accuracy);
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-    }
 
     @GetMapping("/handwriteingREC")
-    public Result  constructHeader(@RequestParam("picture") MultipartFile srcPath) throws IOException, ParseException {
+    public Result  constructHeader(@RequestParam("picture") MultipartFile srcPath, @RequestParam("username") String username) {
         Result result = new Result();
         File file = null;
         try {
@@ -200,16 +174,18 @@ public class ImageController {
             file=File.createTempFile("tmp", null);
             srcPath.transferTo(file);
             file.deleteOnExit();
-        } catch (IOException e) {
-            e.printStackTrace();
+            if(username != "default"){  //插入记录
+                recordService.insertRecord(username, "图片", "识别手写字体");
+            }
+            String src = HandwritingReg.RecognizeHandWritinf(file);
+            String data = JsonUtil.GetContent(src);
             result.setCode(200);
+            result.setData(data);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setCode(500);
+            result.setMsg("压缩失败");
         }
-        String src = HandwritingReg.RecognizeHandWritinf(file);
-        String data = JsonUtil.GetContent(src);
-
-
-        result.setData(data);
         return result;
     }
-
 }

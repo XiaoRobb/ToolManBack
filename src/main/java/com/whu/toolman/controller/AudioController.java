@@ -2,6 +2,8 @@ package com.whu.toolman.controller;
 
 import com.whu.toolman.common.Result;
 import com.whu.toolman.picHandle.HandwritingReg;
+import com.whu.toolman.service.RecordService;
+import com.whu.toolman.service.impl.RecordServiceImpl;
 import com.whu.toolman.util.AudioConvertUtils;
 import com.whu.toolman.util.FileUtils;
 import com.whu.toolman.util.PictureUtil;
@@ -16,9 +18,11 @@ import ws.schild.jave.Encoder;
 import ws.schild.jave.EncodingAttributes;
 import ws.schild.jave.MultimediaObject;
 
+import javax.annotation.Resource;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URLEncoder;
+import java.sql.SQLException;
 
 /**
  * @author ：qx.w
@@ -29,9 +33,11 @@ import java.net.URLEncoder;
 @RestController
 @RequestMapping("/audio")
 public class AudioController {
+    @Resource
+    RecordServiceImpl recordService;
 
     @GetMapping("/wav2Mp3")
-    public Result wav2Mp3(@RequestParam("source")MultipartFile source) {
+    public Result wav2Mp3(@RequestParam("source")MultipartFile source, @RequestParam("username")String username) {
         Result result = new Result();
         String url = PictureUtil.filePathAudio;
         try {
@@ -42,43 +48,19 @@ public class AudioController {
             result.setCode(200);
             result.setMsg("处理成功");
             result.setData(url);
-        }
-        catch (Exception e) {
+            if(username != "default"){  //插入记录
+                recordService.insertRecord(username, "音频", "把文件转为mp3格式");
+            }
+        } catch (Exception e) {
             result.setCode(500);
             result.setMsg("处理失败");
             System.out.println(e.getMessage());
         }
         return result;
-//        try {
-//            //通过路径得到一个输入流
-//            FileInputStream fis = new FileInputStream(target);
-//            //创建字节输出流
-//            ServletOutputStream outputStream = response.getOutputStream();
-//            //执行输出操作
-//            int len = 1;
-//            byte[] b = new byte[1024];
-//            while((len = fis.read(b)) != -1) {
-//                outputStream.write(b, 0, len);
-//            }
-//            /*方法内可以不关流*/
-//            outputStream.close();
-//            fis.close();
-//            //得到要下载的文件名
-//            String filename = target.getName();
-//
-//            //设置文件名的编码
-//            filename = URLEncoder.encode(filename, "UTF-8");
-//
-//            //告知客户端要下载的文件
-//            response.setHeader("content-disposition", "attachment;filename=" + filename);
-//            response.setHeader("content-type", "audio/mp3");
-//        }
-//        catch (Exception e) {
-//        }
     }
 
     @GetMapping("/mp32Wave")
-    public Result mp32Wave(@RequestParam("source")MultipartFile source) {
+    public Result mp32Wave(@RequestParam("source")MultipartFile source, @RequestParam("username") String username) {
         Result result = new Result();
         String url = PictureUtil.filePathAudio;
         try {
@@ -92,8 +74,10 @@ public class AudioController {
             result.setCode(200);
             result.setMsg("处理成功");
             result.setData(url);
-        }
-        catch (Exception e) {
+            if(username != "default"){  //插入记录
+                recordService.insertRecord(username, "音频", "把文件转为wav格式");
+            }
+        } catch (Exception e) {
             result.setCode(500);
             result.setMsg("处理失败");
             System.out.println(e.getMessage());
@@ -103,8 +87,7 @@ public class AudioController {
 
 
     @GetMapping("/audiofromavi")
-
-    public Result picAudioFromVideo(@RequestParam("source")MultipartFile sourceFile) throws Exception {
+    public Result picAudioFromVideo(@RequestParam("source")MultipartFile sourceFile, @RequestParam("username") String username) throws Exception {
         String filename = sourceFile.getName();
         Result result = new Result();
         String dstPath = PictureUtil.filePathAudio +filename + ".wav";
@@ -119,17 +102,16 @@ public class AudioController {
             attrs.setAudioAttributes(audio);
             Encoder encoder = new Encoder();
             encoder.encode(new MultimediaObject(source), target, attrs);
-
-        }catch (Exception e){
+            if(username != "default"){  //插入记录
+                recordService.insertRecord(username, "音频", "提取音频");
+            }
+        } catch (Exception e){
             result.setMsg(e.getMessage());
-            result.setCode(400);
-
+            result.setCode(500);
         }
         result.setData(dstPath);
         result.setMsg("提取成功");
         result.setCode(200);
         return result;
     }
-
-
 }

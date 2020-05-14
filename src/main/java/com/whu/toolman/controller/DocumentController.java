@@ -5,6 +5,7 @@ import com.aspose.words.SaveFormat;
 import com.whu.toolman.common.Result;
 import com.whu.toolman.service.RecordService;
 import com.whu.toolman.service.UserService;
+import com.whu.toolman.service.impl.RecordServiceImpl;
 import com.whu.toolman.util.DocumentConvertUtils;
 import com.whu.toolman.util.FileUtils;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
@@ -29,10 +31,10 @@ import java.util.Date;
 @RequestMapping("/document")
 public class DocumentController {
     @Resource
-    RecordService recordService;
+    RecordServiceImpl recordService;
 
     @PostMapping("/word2pdf")
-    public Result changeDocument(@RequestParam("source")MultipartFile document, @RequestParam("format")String format, @RequestParam("username") String username){
+    public Result changeDocument(@RequestParam("source")MultipartFile document, @RequestParam("format")String format, @RequestParam("username")String username){
         Result result = new Result();
         int fileFormat;
         String filename = document.getName();
@@ -70,7 +72,7 @@ public class DocumentController {
                 location = DocumentConvertUtils.changeFormat(file,  filename, fileFormat);
             }
             if(location == "" || location == null){
-                result.setCode(205);
+                result.setCode(500);
                 result.setMsg("转换失败");
                 return result;
             }
@@ -78,14 +80,18 @@ public class DocumentController {
             result.setMsg("转换成功");
             result.setData(location);
             if(username != "default"){  //插入记录
-                recordService.insertRecord(username, "文档", "把文件转为" + format+"格式");
+                recordService.insertRecord(username, "文档", "把文件转为" + format +"格式");
             }
-            return result;
-        }catch (Exception e){
+        }catch (SQLException e){
             System.out.println(e.getMessage());
-            result.setCode(205);
-            result.setMsg("转换失败");
-            return result;
+            result.setCode(250);
+            result.setMsg("转换成功，记录填写失败");
         }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+            result.setCode(500);
+            result.setMsg("转换失败");
+        }
+        return result;
     }
 }
