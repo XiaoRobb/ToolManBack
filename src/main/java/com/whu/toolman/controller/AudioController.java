@@ -8,10 +8,7 @@ import com.whu.toolman.util.AudioConvertUtils;
 import com.whu.toolman.util.FileUtils;
 import com.whu.toolman.util.PictureUtil;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ws.schild.jave.AudioAttributes;
 import ws.schild.jave.Encoder;
@@ -30,6 +27,7 @@ import java.sql.SQLException;
  * @modified By：
  * @since ：Created in 2020/4/23 18:24
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/audio")
 public class AudioController {
@@ -108,6 +106,8 @@ public class AudioController {
         } catch (Exception e){
             result.setMsg(e.getMessage());
             result.setCode(500);
+            result.setMsg("提取失败");
+            return result;
         }
         result.setData(dstPath);
         result.setMsg("提取成功");

@@ -112,22 +112,23 @@ public class ImageController {
             ImageIO.write(dstimage, "png", output);
 
             result.setCode(200);
-            result.setMsg("转换成功");
+            result.setMsg("添加成功");
             result.setData(dstPath);
             if(username != "default"){  //插入记录
-                recordService.insertRecord(username, "音频", "提取音频");
+                recordService.insertRecord(username, "图片", "滤镜添加");
             }
         } catch (Exception e){
             e.printStackTrace();
             result.setCode(500);
-            result.setMsg("转换失败");
+            result.setMsg("添加失败");
         }
         return result;
     }
 
     //图片压缩
     @GetMapping("/imagecompress")
-    public Result compressImage(@RequestParam("picture") MultipartFile srcPath, @RequestParam("size")long desFileSize, @RequestParam("accuacy")double accuacy, @RequestParam("username") String username){
+    public Result compressImage(@RequestParam("picture") MultipartFile srcPath, @RequestParam("size")long desFileSize, @RequestParam("username") String username){
+        double accuacy = 0.9;
         Result result = new Result();
 
         String filename = srcPath.getName();
@@ -152,7 +153,7 @@ public class ImageController {
             long dstImgSize = dstImg.length();
             System.out.println("压缩完成！ 压缩图："+ dstPath+"大小为："+dstImgSize/1024 + "KB");
             if(username != "default"){  //插入记录
-                recordService.insertRecord(username, "音频", "提取音频");
+                recordService.insertRecord(username, "图片", "图片压缩");
             }
             result.setMsg("OK");
             result.setData(dstPath);
@@ -184,7 +185,7 @@ public class ImageController {
         } catch (Exception e) {
             e.printStackTrace();
             result.setCode(500);
-            result.setMsg("压缩失败");
+            result.setMsg("识别失败");
         }
         return result;
     }
