@@ -7,6 +7,12 @@ spring:
       max-file-size: 10MB
       enabled: true
       max-request-size: 10MB
+  mail:
+      default-encoding: UTF-8
+      host: smtp.qq.com
+      username: 1433119499@qq.com
+      password: gyfbvqezavydgija
+
 
 #Mybatis
 mybatis:
@@ -17,3 +23,4 @@ mybatis:
   #
   configuration:
     map-underscore-to-camel-case: true
+
