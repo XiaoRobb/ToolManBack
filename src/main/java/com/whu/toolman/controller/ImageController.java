@@ -52,7 +52,7 @@ public class ImageController {
         int fileFormat;
         String filename = source.getName();
 
-        String dstPath = PictureUtil.filePathPicture +filename + ".png";
+        String dstPath = PictureUtil.filePathPicture+filename + ".png";
         Result result = new Result();
         File file = null;
         try {
@@ -110,7 +110,7 @@ public class ImageController {
 
             result.setCode(200);
             result.setMsg("添加成功");
-            result.setData(dstPath);
+            result.setData(PictureUtil.url + "picture/" + filename + ".png");
             if(username != "default"){  //插入记录
                 recordService.insertRecord(username, "图片", "滤镜添加");
             }
@@ -130,7 +130,7 @@ public class ImageController {
 
         String filename = srcPath.getName();
 
-        String dstPath = PictureUtil.filePathPicture +filename + ".jpg";
+        String dstPath = PictureUtil.filePathPicture+ "picture" +filename + ".jpg";
 
 
         File file = null;
@@ -153,7 +153,7 @@ public class ImageController {
                 recordService.insertRecord(username, "图片", "图片压缩");
             }
             result.setMsg("OK");
-            result.setData(dstPath);
+            result.setData(PictureUtil.url + "picture/" + filename + ".jpg");
         }catch (Exception e){
             e.printStackTrace();
             result.setCode(500);

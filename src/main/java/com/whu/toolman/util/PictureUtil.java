@@ -12,11 +12,11 @@ import java.io.IOException;
  * @since ：Created in 2020/5/2 15:07
  */
 public class PictureUtil {
-    public static String filePathDocument = "D:\\ToolManResources\\document\\";//System.getProperty("user.dir") + "\\src\\main\\resources\\static\\bookPhoto\\";
+    public static String filePathDocument = "D:\\ToolManResources\\document\\";
     public static String filePathUser = "D:\\ToolManResources\\user\\";
     public static String filePathAudio = "D:\\ToolManResources\\audio\\";
     public static String filePathPicture = "D:\\ToolManResources\\picture\\";
-    public static String url = "http://localhost:9010/ToolManResources/";
+    public static String url = "https://jvrqoq4x.xiaomy.net/ToolManResources/";
 
     /**
      * 将文件上传至服务器

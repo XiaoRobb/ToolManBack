@@ -37,12 +37,12 @@ public class AudioController {
     @PostMapping("/wav2Mp3")
     public Result wav2Mp3(@RequestParam("source")MultipartFile source, @RequestParam("username")String username) {
         Result result = new Result();
-        String url = PictureUtil.filePathAudio;
+        String url = PictureUtil.url;
         try {
             File target = AudioConvertUtils.wave2Mp3(source);
             System.out.println(target.getAbsolutePath());
             System.out.println(target.getName());
-            url += "/" + target.getName();
+            url += "audio/" + target.getName();
             result.setCode(200);
             result.setMsg("处理成功");
             result.setData(url);
@@ -60,7 +60,7 @@ public class AudioController {
     @PostMapping("/mp32Wave")
     public Result mp32Wave(@RequestParam("source")MultipartFile source, @RequestParam("username") String username) {
         Result result = new Result();
-        String url = PictureUtil.filePathAudio;
+        String url = PictureUtil.url;
         try {
             String fileName = AudioConvertUtils.mp32Wave(source);
             if (fileName == null) {
@@ -68,7 +68,7 @@ public class AudioController {
                 result.setMsg("处理失败");
                 return result;
             }
-            url += "/" + fileName;
+            url += "audio/" + fileName;
             result.setCode(200);
             result.setMsg("处理成功");
             result.setData(url);
@@ -109,7 +109,7 @@ public class AudioController {
             result.setMsg("提取失败");
             return result;
         }
-        result.setData(dstPath);
+        result.setData(PictureUtil.url + "audio/" + filename + ".wav");
         result.setMsg("提取成功");
         result.setCode(200);
         return result;
