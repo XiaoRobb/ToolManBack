@@ -23,7 +23,7 @@ public class DocumentConvertUtils {
         File outPutFile = new File(location);
         FileOutputStream outputStream = new FileOutputStream(outPutFile);
         doc.save(outputStream, format);
-        return PictureUtil.filePathDocument + "document/" + filename;
+        return PictureUtil.url + "document/" + filename;
     }
 
     public static String docToImage(File file, String filename, int format) throws Exception{
@@ -51,6 +51,6 @@ public class DocumentConvertUtils {
         String zipPath = PictureUtil.filePathDocument + fileNameReal +".zip";
         ZipUtIls zipUtIls = new ZipUtIls(zipPath);
         zipUtIls.compress(path);
-        return zipPath;
+        return PictureUtil.url + "document/" + fileNameReal + ".zip";
     }
 }
