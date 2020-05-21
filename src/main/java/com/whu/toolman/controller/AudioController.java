@@ -34,7 +34,7 @@ public class AudioController {
     @Resource
     RecordServiceImpl recordService;
 
-    @GetMapping("/wav2Mp3")
+    @PostMapping("/wav2Mp3")
     public Result wav2Mp3(@RequestParam("source")MultipartFile source, @RequestParam("username")String username) {
         Result result = new Result();
         String url = PictureUtil.filePathAudio;
@@ -57,7 +57,7 @@ public class AudioController {
         return result;
     }
 
-    @GetMapping("/mp32Wave")
+    @PostMapping("/mp32Wave")
     public Result mp32Wave(@RequestParam("source")MultipartFile source, @RequestParam("username") String username) {
         Result result = new Result();
         String url = PictureUtil.filePathAudio;
@@ -84,7 +84,7 @@ public class AudioController {
     }
 
 
-    @GetMapping("/audiofromavi")
+    @PostMapping("/audiofromavi")
     public Result picAudioFromVideo(@RequestParam("source")MultipartFile sourceFile, @RequestParam("username") String username) throws Exception {
         String filename = sourceFile.getName();
         Result result = new Result();

@@ -2,6 +2,7 @@ package com.whu.toolman.controller;
 
 import com.whu.toolman.common.Result;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +20,7 @@ import java.util.List;
 @RestController
 public class DemoController {
 
-    @GetMapping("/demo")
+    @PostMapping("/demo")
     public Result demo(@RequestParam("name") String name,
                        @RequestParam("picture") MultipartFile file) {
         Result result = new Result();
@@ -32,7 +33,7 @@ public class DemoController {
         return result;
     }
 
-    @GetMapping("/pic")
+    @PostMapping("/pic")
     public Result demdo(@RequestParam("name") String name,
                        @RequestParam("picture") MultipartFile file) {
         Result result = new Result();

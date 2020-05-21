@@ -23,10 +23,7 @@ import com.whu.toolman.util.ImageUtils;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -49,7 +46,7 @@ public class ImageController {
     * accuacy为图片压缩的初始准确度
     */
 
-    @GetMapping("/imagerendering")
+    @PostMapping("/imagerendering")
     //图片滤镜添加
     public Result ImageRendering(@RequestParam("style")int style , @RequestParam("picture") MultipartFile source, @RequestParam("username") String username){
         int fileFormat;
@@ -126,7 +123,7 @@ public class ImageController {
     }
 
     //图片压缩
-    @GetMapping("/imagecompress")
+    @PostMapping("/imagecompress")
     public Result compressImage(@RequestParam("picture") MultipartFile srcPath, @RequestParam("size")long desFileSize, @RequestParam("username") String username){
         double accuacy = 0.9;
         Result result = new Result();
@@ -166,7 +163,7 @@ public class ImageController {
     }
 
 
-    @GetMapping("/handwriteingREC")
+    @PostMapping("/handwriteingREC")
     public Result  constructHeader(@RequestParam("picture") MultipartFile srcPath, @RequestParam("username") String username) {
         Result result = new Result();
         File file = null;
