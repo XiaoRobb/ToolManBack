@@ -22,21 +22,21 @@ public interface RecordMapper {
     List<Record> selectByUser(@Param("userId") String userId);
 
     /**
-     * 新增一本书在购物车中
+     * 新增一个记录
      * @param record
      * @return
      */
     int insertRecord(Record record);
 
     /**
-     * 删除购物车中的一本书
+     * 删除一条记录
      * @param uuid
      * @return
      */
     int deleteRecord(@Param("uuid") String uuid);
 
     /**
-     * 清空购物车
+     * 清空清空记录
      * @param userId
      * @return
      */

@@ -22,7 +22,7 @@ public class Record {
     /**
      * 创建时间
      */
-    private LocalDateTime creatTime;
+    private LocalDateTime createTime;
 
     /**
      * 操作类型（文档图片音频）
@@ -50,12 +50,12 @@ public class Record {
         this.userId = userId;
     }
 
-    public LocalDateTime getCreatTime() {
-        return creatTime;
+    public LocalDateTime getcreateTime() {
+        return createTime;
     }
 
-    public void setCreatTime(LocalDateTime creatTime) {
-        this.creatTime = creatTime;
+    public void setcreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
     }
 
     public String getDescreption() {
