@@ -25,21 +25,23 @@ public class UserController {
     public Result login(@PathVariable("username") String username
             , @RequestParam("password") String password) {
         Result result = new Result();
-        User user = userService.getUser(username);
-        if (user == null) {
+        try {
+            User user = userService.getUser(username);
+            if (!user.getPassword().equals(password)) {
+                result.setCode(201);
+                result.setMsg("密码错误");
+                return result;
+            }
+            result.setCode(200);
+            result.setMsg("登陆成功");
+            result.setData(user);
+            return result;
+        }
+        catch (Exception e) {
             result.setCode(201);
             result.setMsg("没有该用户");
             return result;
         }
-        if (!user.getPassword().equals(password)) {
-            result.setCode(201);
-            result.setMsg("密码错误");
-            return result;
-        }
-        result.setCode(200);
-        result.setMsg("登陆成功");
-        result.setData(user);
-        return result;
     }
 
     @PostMapping("/{username}")

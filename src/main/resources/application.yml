@@ -1,18 +1,24 @@
 spring:
   profiles:
-    active: dev
+    active: prod
   servlet:
     multipart:
       #设置文件大小
       max-file-size: 10MB
       enabled: true
       max-request-size: 10MB
+
   mail:
-      default-encoding: UTF-8
       host: smtp.qq.com
       username: 2596105310@qq.com
+      default-encoding: UTF-8
       password: qgpiogxkxfuheadj
-
+      port: 465
+      properties:
+        mail:
+          smtp:
+            socketFactory:
+              class: javax.net.ssl.SSLSocketFactory
 
 #Mybatis
 mybatis:

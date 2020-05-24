@@ -1,0 +1,15 @@
+server:
+  port: 9050
+spring:
+  mvc:
+    static-path-pattern: /ToolManResources/**
+  resources:
+    static-locations: file:/root/toolman/ToolManResources/
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/toolman?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: Wqx981127@
+
+url: http://47.93.53.85:9050/ToolManResources/
+filePath: /root/toolman/ToolManResources/

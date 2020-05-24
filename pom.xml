@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.whu</groupId>
     <artifactId>toolman</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <name>toolman</name>
     <description>toolman project for Spring Boot</description>
 

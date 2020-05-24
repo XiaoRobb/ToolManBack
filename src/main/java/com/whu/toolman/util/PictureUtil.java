@@ -1,5 +1,7 @@
 package com.whu.toolman.util;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -11,12 +13,30 @@ import java.io.IOException;
  * @modified By：
  * @since ：Created in 2020/5/2 15:07
  */
+@Component
 public class PictureUtil {
-    public static String filePathDocument = "D:\\ToolManResources\\document\\";
-    public static String filePathUser = "D:\\ToolManResources\\user\\";
-    public static String filePathAudio = "D:\\ToolManResources\\audio\\";
-    public static String filePathPicture = "D:\\ToolManResources\\picture\\";
-    public static String url = "https://jvrqoq4x.xiaomy.net/ToolManResources/";
+    public static String filePathDocument;// = "D:\\ToolManResources\\document\\";
+    public static String filePathUser;// = "D:\\ToolManResources\\user\\";
+    public static String filePathAudio;// = "D:\\ToolManResources\\audio\\";
+    public static String filePathPicture;// = "D:\\ToolManResources\\picture\\";
+
+    public static String url;//"https://jvrqoq4x.xiaomy.net/ToolManResources/";
+    @Value("${url}")
+    public void setUrl(String surl) {
+        url = surl;
+    }
+
+    @Value("${filePath}")
+    public void setFilePathDocument(String path) {filePathDocument = path + "document/";}
+
+    @Value("${filePath}")
+    public void setFilePathAudio(String path) {filePathAudio = path + "audio/";}
+
+    @Value("${filePath}")
+    public void setFilePathUser(String path) {filePathUser = path + "user/";}
+
+    @Value("${filePath}")
+    public void setFilePathPicture(String path) {filePathPicture = path + "picture/";}
 
     /**
      * 将文件上传至服务器

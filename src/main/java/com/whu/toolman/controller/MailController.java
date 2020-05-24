@@ -22,6 +22,7 @@ public class MailController {
         try {
             mailService.sendSimpleMail(email, "注册验证码", message);
         }catch (Exception e){
+            System.out.println(e.getMessage());
             result.setCode(500);
             result.setMsg("验证码发送失败");
             result.setData(checkCode);
