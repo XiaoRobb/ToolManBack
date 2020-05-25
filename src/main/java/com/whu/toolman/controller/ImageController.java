@@ -52,7 +52,7 @@ public class ImageController {
         int fileFormat;
         String filename = source.getName();
 
-        String dstPath = PictureUtil.filePathPicture+filename + ".png";
+        String dstPath = PictureUtil.filePathPicture + filename + ".png";
         Result result = new Result();
         File file = null;
         try {
@@ -130,7 +130,7 @@ public class ImageController {
 
         String filename = srcPath.getName();
 
-        String dstPath = PictureUtil.filePathPicture+ "picture" +filename + ".jpg";
+        String dstPath = PictureUtil.filePathPicture + filename + ".jpg";
 
 
         File file = null;

@@ -87,7 +87,7 @@ public class AudioController {
     public Result picAudioFromVideo(@RequestParam("source")MultipartFile sourceFile, @RequestParam("username") String username) throws Exception {
         String filename = sourceFile.getName();
         Result result = new Result();
-        String dstPath = PictureUtil.filePathAudio +filename + ".wav";
+        String dstPath = PictureUtil.filePathAudio + filename + ".wav";
         File source = FileUtils.multipartFileToFile(sourceFile);
 
         File target = new File(dstPath);
