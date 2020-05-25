@@ -11,8 +11,5 @@ import java.io.File;
 public class DocumentServiceImptTest {
     @Test
     void changeFormatTest() throws Exception{
-        File file = new File("E:/test.doc");
-        String temp = DocumentConvertUtils.changeFormat(file, "test.pdf",40);
-        System.out.printf(temp);
     }
 }

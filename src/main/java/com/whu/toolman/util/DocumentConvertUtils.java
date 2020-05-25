@@ -1,13 +1,8 @@
 package com.whu.toolman.util;
 
-import com.aspose.words.Document;
-import com.aspose.words.ImageSaveOptions;
-import com.aspose.words.SaveFormat;
+import com.aspose.words.*;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.util.zip.ZipEntry;
 
 /**
@@ -17,40 +12,74 @@ import java.util.zip.ZipEntry;
  */
 public class DocumentConvertUtils {
 
-    public static String changeFormat(File file, String filename, int format) throws Exception{
-        String location = PictureUtil.filePathDocument  + filename;
-        Document doc = new Document(new FileInputStream(file));
-        File outPutFile = new File(location);
-        FileOutputStream outputStream = new FileOutputStream(outPutFile);
-        doc.save(outputStream, format);
-        return PictureUtil.url + "document/" + filename;
-    }
+    //转为除PNG、JPG的其他格式
+    public static String changeFormat(Document document, String filename, int format) throws Exception{
+        if(format == SaveFormat.PNG || format == SaveFormat.JPEG){
+            //保存为图片
+            //创建图片文件夹
+            String dirPath = PictureUtil.filePathDocument + filename + "\\";
+            File dir = new File(dirPath);
+            if(dir.exists()){
+                dir.delete();
+            }
+            dir.mkdir();
+            //转为图片格式
+            ImageSaveOptions iso = new ImageSaveOptions(format);
+            iso.setPrettyFormat(true);
+            iso.setUseAntiAliasing(true);
+            iso.setJpegQuality(80);
+            for (int i = 0; i < document.getPageCount(); i++)
+            {
+                iso.setPageIndex(i);
+                String suffix = format == SaveFormat.JPEG ? ".jpeg" : ".png";
+                document.save(dirPath+ i + suffix, iso);
+            }
+            String zipPath = PictureUtil.filePathDocument + filename +".zip";
+            ZipUtIls zipUtIls = new ZipUtIls(zipPath);
+            zipUtIls.compress(dirPath);
+            return PictureUtil.url + "document/" + filename + ".zip";
+        }else{  //其他格式
+            //更新文件名
+            switch (format){
+                case  SaveFormat.HTML:
+                    filename +=".html";
+                    break;
+                case  SaveFormat.PNG:
+                    filename +=".png";
+                    break;
+                case SaveFormat.JPEG:
+                    filename +=".jpeg";
+                    break;
+                case SaveFormat.DOC:
+                    filename +=".doc";
+                    break;
+                case SaveFormat.DOCX:
+                    filename += ".docx";
+                    break;
+                default:
+                    filename +=".pdf";
+            }
+            //设置目标文件的名称
+            String location = PictureUtil.filePathDocument  + filename;
+            //新建目标文件
+            File target = new File(location);
+            FileOutputStream outputStream = new FileOutputStream(target);
+            if(format == SaveFormat.HTML){ //转HTML
+                HtmlSaveOptions saveOptions = new HtmlSaveOptions(format);
+                saveOptions.setExportHeadersFootersMode(ExportHeadersFootersMode.NONE); // HtmlSaveOptions的其他设置信息请参考相关API
+                //ByteArrayOutputStream htmlStream = new ByteArrayOutputStream();
+                document.save(outputStream, saveOptions);
+            }else if(format == SaveFormat.PDF){
 
-    public static String docToImage(File file, String filename, int format) throws Exception{
-        if(format != SaveFormat.PNG && format != SaveFormat.JPEG){
-            return "";
+                DocSaveOptions saveOptions = new DocSaveOptions(format);;
+                //保存文件
+                document.save(outputStream, saveOptions);
+            }else {
+                //保存文件
+                document.save(outputStream, format);
+            }
+            outputStream.close();
+            return PictureUtil.url + "document/" + filename;
         }
-        String fileNameReal = filename.substring(0, filename.length()-4);
-        String path = PictureUtil.filePathDocument  + fileNameReal + "\\";
-        File f = new File(path);
-        if(f.exists()){
-            f.delete();
-        }
-        f.mkdir();
-        Document doc = new Document(new FileInputStream(file));
-        ImageSaveOptions iso = new ImageSaveOptions(format);
-        iso.setPrettyFormat(true);
-        iso.setUseAntiAliasing(true);
-        iso.setJpegQuality(80);
-        for (int i = 0; i < doc.getPageCount(); i++)
-        {
-            iso.setPageIndex(i);
-            String suffix = format == SaveFormat.JPEG ? ".jpeg" : ".png";
-            doc.save(path+i+ suffix, iso);
-        }
-        String zipPath = PictureUtil.filePathDocument + fileNameReal +".zip";
-        ZipUtIls zipUtIls = new ZipUtIls(zipPath);
-        zipUtIls.compress(path);
-        return PictureUtil.url + "document/" + fileNameReal + ".zip";
     }
 }

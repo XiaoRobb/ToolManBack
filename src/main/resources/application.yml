@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: prod
+    active: dev
   servlet:
     multipart:
       #设置文件大小

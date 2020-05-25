@@ -1,6 +1,7 @@
 package com.whu.toolman.controller;
 
 import com.aspose.cells.DateTime;
+import com.aspose.words.Document;
 import com.aspose.words.SaveFormat;
 import com.whu.toolman.common.Result;
 import com.whu.toolman.service.RecordService;
@@ -35,42 +36,43 @@ public class DocumentController {
 
     @PostMapping("/documentChange")
     public Result changeDocument(@RequestParam("source")MultipartFile document, @RequestParam("format")String format, @RequestParam("username")String username){
+        //新建返回结果
         Result result = new Result();
+        //文件名称
+        String filename = document.getOriginalFilename().substring(0, document.getOriginalFilename().indexOf("."));
+        //目标格式
         int fileFormat;
-        String filename = document.getName();
         switch (format.toLowerCase()){
             case  "html":
                 fileFormat = SaveFormat.HTML;
-                filename +=".html";
+                //filename +=".html";
                 break;
             case  "png":
                 fileFormat = SaveFormat.PNG;
-                filename +=".png";
+                //filename +=".png";
                 break;
             case "jpeg":
                 fileFormat = SaveFormat.JPEG;
-                filename +=".jpeg";
+                //filename +=".jpeg";
                 break;
             case "doc":
                 fileFormat = SaveFormat.DOC;
-                filename +=".doc";
+                //filename +=".doc";
                 break;
             case "docx":
                 fileFormat = SaveFormat.DOCX;
-                filename += ".docx";
+                //filename += ".docx";
                 break;
             default:
                 fileFormat = SaveFormat.PDF;
-                filename +=".pdf";
+                //filename +=".pdf";
         }
+        //转换
         try{
-            File file = FileUtils.multipartFileToFile(document);
-            String location;
-            if(fileFormat == SaveFormat.JPEG || fileFormat == SaveFormat.PNG){
-               location = DocumentConvertUtils.docToImage(file, filename, fileFormat);
-            }else{
-                location = DocumentConvertUtils.changeFormat(file,  filename, fileFormat);
-            }
+            //将流转换为Document
+            Document doc = new Document(document.getInputStream());
+            //目标文件地址
+            String location = DocumentConvertUtils.changeFormat(doc,  filename, fileFormat);
             if(location == "" || location == null){
                 result.setCode(500);
                 result.setMsg("转换失败");

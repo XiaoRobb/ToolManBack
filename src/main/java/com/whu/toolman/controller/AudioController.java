@@ -40,12 +40,11 @@ public class AudioController {
         String url = PictureUtil.url;
         try {
             File target = AudioConvertUtils.wave2Mp3(source);
-            System.out.println(target.getAbsolutePath());
-            System.out.println(target.getName());
             url += "audio/" + target.getName();
             result.setCode(200);
             result.setMsg("处理成功");
             result.setData(url);
+            System.out.println(url);
             if(username != "default"){  //插入记录
                 recordService.insertRecord(username, "音频", "把文件转为mp3格式");
             }
