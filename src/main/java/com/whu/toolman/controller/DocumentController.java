@@ -1,8 +1,7 @@
 package com.whu.toolman.controller;
 
 import com.aspose.cells.DateTime;
-import com.aspose.words.Document;
-import com.aspose.words.SaveFormat;
+import com.aspose.words.*;
 import com.whu.toolman.common.Result;
 import com.whu.toolman.service.RecordService;
 import com.whu.toolman.service.UserService;
@@ -18,6 +17,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
+import java.nio.charset.Charset;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -88,6 +88,10 @@ public class DocumentController {
             System.out.println(e.getMessage());
             result.setCode(250);
             result.setMsg("转换成功，记录填写失败");
+        }catch (UnsupportedFileFormatException e){
+            System.out.println(e.getMessage());
+            result.setCode(500);
+            result.setMsg("转换失败");
         }
         catch (Exception e){
             System.out.println(e.getMessage());
