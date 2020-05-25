@@ -21,6 +21,10 @@ public class DocumentConvertUtils {
             String dirPath = PictureUtil.filePathDocument + filename + "/";
             File dir = new File(dirPath);
             if(dir.exists()){
+                for (File file :
+                        dir.listFiles()) {
+                    file.delete();
+                }
                 dir.delete();
             }
             dir.mkdir();
