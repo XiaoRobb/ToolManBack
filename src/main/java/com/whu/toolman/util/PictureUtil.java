@@ -15,12 +15,12 @@ import java.io.IOException;
  */
 @Component
 public class PictureUtil {
-    public static String filePathDocument;// = "D:\\ToolManResources\\document\\";
-    public static String filePathUser;// = "D:\\ToolManResources\\user\\";
-    public static String filePathAudio;// = "D:\\ToolManResources\\audio\\";
-    public static String filePathPicture;// = "D:\\ToolManResources\\picture\\";
+    public static String filePathDocument;
+    public static String filePathUser;
+    public static String filePathAudio;
+    public static String filePathPicture;
 
-    public static String url;//"https://jvrqoq4x.xiaomy.net/ToolManResources/";
+    public static String url;
     @Value("${url}")
     public void setUrl(String surl) {
         url = surl;

@@ -1,3 +1,6 @@
+# application-dev.yml
+variable:
+  profiles : dev
 server:
   port: 9010
 spring:
